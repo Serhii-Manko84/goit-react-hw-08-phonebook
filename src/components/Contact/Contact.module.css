@@ -1,0 +1,39 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    margin: auto;
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(42, 5, 246);
+    color: rgb(242, 242, 16);
+    margin-right: 5px;
+    padding: 15px;
+}
+
+.number {
+    font-weight: 700;
+    margin-right: 5px;
+}
+
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    padding: 10px;
+    border: none;
+    background-color: rgb(242, 242, 16);
+    color: rgb(42, 5, 246);
+    cursor: pointer;
+}
+
+.button:hover,
+.button:focus {
+    background-color: rgb(152, 235, 227);
+}
