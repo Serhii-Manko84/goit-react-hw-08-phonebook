@@ -6,6 +6,8 @@ import { Filter } from './Filter/Filter';
 import { Message } from './Message/Message';
 import css from '../components/App.module.css';
 
+const LOCAL_KEY = 'contacts';
+
 export class App extends Component {
   state = {
     contacts: [
@@ -16,6 +18,24 @@ export class App extends Component {
     ],
     filter: '',
   };
+
+  componentDidMount() {
+    const contacts = localStorage.getItem(LOCAL_KEY);
+    const parsedContacts = JSON.parse(contacts);
+
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    const nextContacts = this.state.contacts;
+    const prevContacts = prevState.contacts;
+
+    if (nextContacts !== prevContacts) {
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(nextContacts));
+    }
+  }
 
   addContact = ({ name, number }) => {
     const { contacts } = this.state;
