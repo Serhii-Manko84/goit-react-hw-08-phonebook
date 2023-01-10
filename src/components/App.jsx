@@ -68,20 +68,19 @@ export class App extends Component {
 
   render() {
     const { filter } = this.state;
-    const { addContact, changeFilter, deleteContact } = this;
     const filterContacts = this.filterContacts();
     const length = this.state.contacts.length;
     return (
       <div className={css.styleApp}>
         <h1>Phonebook</h1>
-        <ContactForm onSubmit={addContact} />
+        <ContactForm onSubmit={this.addContact} />
 
         <h2>Contacts</h2>
-        <Filter filter={filter} changeFilter={changeFilter} />
+        <Filter filter={filter} changeFilter={this.changeFilter} />
         {length > 0 ? (
           <ContactList
             contacts={filterContacts}
-            onDeleteContact={deleteContact}
+            onDeleteContact={this.deleteContact}
           />
         ) : (
           <Message text="Contact list is empy." />
