@@ -67,7 +67,6 @@ export class App extends Component {
   };
 
   render() {
-    const { filter } = this.state;
     const filterContacts = this.filterContacts();
     const length = this.state.contacts.length;
     return (
@@ -76,7 +75,7 @@ export class App extends Component {
         <ContactForm onSubmit={this.addContact} />
 
         <h2>Contacts</h2>
-        <Filter filter={filter} changeFilter={this.changeFilter} />
+        <Filter filter={this.state.filter} changeFilter={this.changeFilter} />
         {length > 0 ? (
           <ContactList
             contacts={filterContacts}
