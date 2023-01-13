@@ -10,23 +10,14 @@ import { useEffect } from 'react';
 const LOCAL_KEY = 'contacts';
 
 export const App = () => {
-  const [contacts, setContacts] = useState(
-    JSON.parse(localStorage.getItem(LOCAL_KEY)) ?? []
-  );
+  const [contacts, setContacts] = useState(() => {
+    return JSON.parse(localStorage.getItem(LOCAL_KEY)) ?? [];
+  });
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
     localStorage.setItem(LOCAL_KEY, JSON.stringify(contacts));
   }, [contacts]);
-
-  //  componentDidMount() {
-  //   const contacts = localStorage.getItem(LOCAL_KEY);
-  //   const parsedContacts = JSON.parse(contacts);
-
-  //   if (parsedContacts) {
-  //     this.setState({ contacts: parsedContacts });
-  //   }
-  // }
 
   const addContact = ({ name, number }) => {
     const newContact = { id: nanoid(), name, number };
@@ -41,14 +32,13 @@ export const App = () => {
   };
 
   const changeFilter = event => {
-    console.log(event);
     setFilter(event.currentTarget.value);
   };
 
   const filterContacts = () => {
     const normalizFilter = filter.toLowerCase();
-    return contacts.filter(({ name }) =>
-      name.toLowerCase().includes(normalizFilter)
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizFilter)
     );
   };
 
@@ -58,10 +48,10 @@ export const App = () => {
       <ContactForm onSubmit={addContact} />
 
       <h2>Contacts</h2>
-      <Filter filter={setFilter} changeFilter={changeFilter} />
+      <Filter filter={filter} changeFilter={changeFilter} />
       {contacts.length > 0 ? (
         <ContactList
-          contacts={filterContacts}
+          contacts={filterContacts()}
           onDeleteContact={deleteContact}
         />
       ) : (
