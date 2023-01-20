@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/contacts/contactSlice';
 
 import css from './ContactForm.module.css';
 
 export const ContactForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({ name: '', number: '' });
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts.items);
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -14,6 +18,12 @@ export const ContactForm = ({ onSubmit }) => {
   const handleSubmit = event => {
     event.preventDefault();
     onSubmit(formData);
+    contacts.some(
+      ({ name: currentName }) =>
+        currentName.toLowerCase() === name.toLowerCase()
+    )
+      ? alert(`${name}, This user is already in the contact list.`)
+      : dispatch(addContact({ name, number }));
     reset();
   };
 

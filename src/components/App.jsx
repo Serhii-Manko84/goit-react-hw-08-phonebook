@@ -3,9 +3,10 @@ import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { Message } from './Message/Message';
-import css from '../components/App.module.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
+
+import css from '../components/App.module.css';
 
 const LOCAL_KEY = 'contacts';
 
@@ -21,10 +22,6 @@ export const App = () => {
 
   const addContact = ({ name, number }) => {
     const newContact = { id: nanoid(), name, number };
-
-    contacts.some(contacts => contacts.name === name)
-      ? alert(`${name}, This user is already in the contact list.`)
-      : setContacts(prevContacts => [newContact, ...prevContacts]);
   };
 
   const deleteContact = contactId => {
