@@ -1,10 +1,16 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addContact } from 'redux/contacts/contactSlice';
 
 import css from './ContactForm.module.css';
 
-export const ContactForm = ({ onSubmit }) => {
-  const [formData, setFormData] = useState({ name: '', number: '' });
+export const ContactForm = () => {
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState({
+    name: '',
+    number: '',
+  });
+  const { name, number } = formData;
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -13,15 +19,9 @@ export const ContactForm = ({ onSubmit }) => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    onSubmit(formData);
-    reset();
-  };
-
-  const reset = () => {
+    dispatch(addContact(formData));
     setFormData({ name: '', number: '' });
   };
-
-  const { name, number } = formData;
 
   return (
     <form className={css.form} onSubmit={handleSubmit}>
@@ -56,9 +56,4 @@ export const ContactForm = ({ onSubmit }) => {
       </button>
     </form>
   );
-};
-
-ContactForm.propTypes = {
-  name: PropTypes.string,
-  number: PropTypes.number,
 };
