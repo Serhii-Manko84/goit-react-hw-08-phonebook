@@ -14,14 +14,17 @@ export function ContactList() {
 
   return (
     <ul>
-      {filteredContacts.lenth === 0 && <Message />}
-      {filteredContacts.map(({ id, name, number }) => {
-        return (
-          <li className={css.item} key={id}>
-            <Contact name={name} number={number} id={id} />
-          </li>
-        );
-      })}
+      {filteredContacts.length === 0 && (
+        <Message text="Contact list is empy." />
+      )}
+      {Array.isArray(filteredContacts) &&
+        filteredContacts.map(({ id, name, number }) => {
+          return (
+            <li className={css.item} key={id}>
+              <Contact name={name} number={number} id={id} />
+            </li>
+          );
+        })}
     </ul>
   );
 }
