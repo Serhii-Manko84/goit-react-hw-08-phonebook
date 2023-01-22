@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFilterValue } from 'redux/contacts/filterSlice';
 import css from '../Filter/Filter.module.css';
@@ -24,7 +23,3 @@ export function Filter() {
     </label>
   );
 }
-
-Filter.prototype = {
-  changeFilter: PropTypes.func.isRequired,
-};

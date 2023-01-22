@@ -1,4 +1,5 @@
 import { Contact } from 'components/Contact/Contact';
+import { Message } from 'components/Message/Message';
 import { useSelector } from 'react-redux';
 
 import css from '../ContactList/ContactList.module.css';
@@ -13,10 +14,11 @@ export function ContactList() {
 
   return (
     <ul>
+      {filteredContacts.lenth === 0 && <Message />}
       {filteredContacts.map(({ id, name, number }) => {
         return (
           <li className={css.item} key={id}>
-            <Contact name={name} number={number} contactID={id} />
+            <Contact name={name} number={number} id={id} />
           </li>
         );
       })}
