@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import { FaTrash, FaUserAlt } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/contacts/contactSlice';
+import { deleteContact } from 'redux/contacts/contacts.thunk';
 import css from '../Contact/Contact.module.css';
 
 export function Contact({ name, number, id }) {
   const dispatch = useDispatch();
 
   const removeContact = () => {
-    dispatch(deleteContact({ id }));
+    dispatch(deleteContact(id));
   };
 
   return (

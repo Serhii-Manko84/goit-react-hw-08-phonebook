@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addContact } from 'redux/contacts/contactSlice';
+import { addNewContact } from 'redux/contacts/contacts.thunk';
 
 import css from './ContactForm.module.css';
 
@@ -19,7 +19,7 @@ export const ContactForm = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    dispatch(addContact(formData));
+    dispatch(addNewContact(formData));
     setFormData({ name: '', number: '' });
   };
 
