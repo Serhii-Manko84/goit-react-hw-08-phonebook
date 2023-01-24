@@ -1,9 +1,12 @@
 import { Contact } from 'components/Contact/Contact';
-import { selectFilter } from 'components/Filter/selectors';
 import Loader from 'components/Loader/Loader';
 import { Message } from 'components/Message/Message';
 import { useSelector } from 'react-redux';
-import { selectContacts, selectIsLoading } from 'redux/contacts/selectors';
+import {
+  selectContacts,
+  selectIsLoading,
+  selectFilter,
+} from 'redux/contacts/selectors';
 
 import css from '../ContactList/ContactList.module.css';
 
