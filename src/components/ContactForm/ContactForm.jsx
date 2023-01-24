@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addNewContact } from 'redux/contacts/contacts.thunk';
+import { selectContacts } from 'redux/contacts/selectors';
 
 import css from './ContactForm.module.css';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
   const [formData, setFormData] = useState({
     name: '',
     number: '',
@@ -19,6 +21,15 @@ export const ContactForm = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
+
+    if (
+      contacts.some(
+        contact => contact.name.toLowerCase() === formData.name.toLowerCase()
+      )
+    ) {
+      return alert(`${formData.name} already in your contacts list`);
+    }
+
     dispatch(addNewContact(formData));
     setFormData({ name: '', number: '' });
   };
