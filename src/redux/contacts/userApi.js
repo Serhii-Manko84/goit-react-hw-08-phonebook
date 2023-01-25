@@ -53,5 +53,14 @@ export const UserAPI = {
 export const ContactsAPI = {
   async getContactsRequest(signal) {
     const { data } = await privateHost.get('/contacts', { signal });
+    return await data;
+  },
+  async addContactRequest(contactData) {
+    const { data } = await privateHost.get('/contacts', { ...contactData });
+    return await data;
+  },
+  async deleteContactRequest(contactId) {
+    const { data } = await privateHost.delete(`/contacts/${contactId}`);
+    return await data;
   },
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { registerThunk } from 'redux/contacts/userSlice';
+import { loginUserRequest } from 'redux/contacts/userSlice';
 
-function RegisterPage() {
+function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ function RegisterPage() {
   const handleSubmit = event => {
     event.preventDefault();
     const formData = { email, password };
-    dispatch(registerThunk(formData));
+    dispatch(loginUserRequest(formData));
   };
   return (
     <div>
@@ -22,6 +22,7 @@ function RegisterPage() {
           <input
             type="email"
             value={email}
+            required
             onChange={event => setEmail(event.target.value)}
           />
         </label>
@@ -30,6 +31,7 @@ function RegisterPage() {
           <input
             type="password"
             value={password}
+            required
             onChange={event => setPassword(event.target.value)}
           />
         </label>
@@ -39,4 +41,4 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+export default LoginPage;

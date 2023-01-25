@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { UserAPI } from './userApi';
 
-export const registerThunk = createAsyncThunk(
+export const registerUserRequest = createAsyncThunk(
   'user/register',
   async (formData, thunkAPI) => {
     try {
       const response = await UserAPI.register(formData);
       localStorage.setItem('token', response.token);
+
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -14,6 +15,20 @@ export const registerThunk = createAsyncThunk(
   }
 );
 
+export const loginUserRequest = createAsyncThunk(
+  'user/login',
+  async (formData, thunkAPI) => {
+    try {
+      const response = await UserAPI.login(formData);
+      console.log('response', response);
+      localStorage.setItem('token', response.token);
+
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 const initialState = {
   userData: null,
   token: null,
@@ -26,16 +41,32 @@ const userSlice = createSlice({
   initialState,
   extraReducers: builder =>
     builder
-      .addCase(registerThunk.pending, (state, action) => {
+      // Register
+      .addCase(loginUserRequest.pending, (state, action) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(registerThunk.fulfilled, (state, action) => {
+      .addCase(loginUserRequest.fulfilled, (state, action) => {
         state.isLoading = false;
         state.userData = action.payload.user;
         state.token = action.payload.token;
       })
-      .addCase(registerThunk.rejected, (state, action) => {
+      .addCase(loginUserRequest.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      // LogIn
+      .addCase(registerUserRequest.pending, (state, action) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(registerUserRequest.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.userData = action.payload.user;
+        state.token = action.payload.token;
+      })
+      .addCase(registerUserRequest.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       }),
