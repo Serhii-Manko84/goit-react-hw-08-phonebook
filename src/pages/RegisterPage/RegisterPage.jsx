@@ -1,13 +1,20 @@
 import React from 'react';
+import Loader from 'components/Loader/Loader';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { registerUserRequest } from 'redux/contacts/userSlice';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function RegisterPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLoading = useSelector(state => state.user.isLoading);
+  const error = useSelector(state => state.user.error);
+  const userData = useSelector(state => state.user.userData);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -17,9 +24,17 @@ function RegisterPage() {
     setEmail('');
     setPassword('');
   };
+  useEffect(() => {
+    if (userData !== null) {
+      navigate('/contacts');
+    }
+  }, [userData, navigate]);
+
   return (
     <div>
       <h1>Registration</h1>
+      {isLoading && <Loader />}
+      {error && <p>error={error}</p>}
       <form onSubmit={handleSubmit}>
         <label>
           Name:

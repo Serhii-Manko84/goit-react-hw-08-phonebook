@@ -1,25 +1,22 @@
 import { Filter } from './Filter/Filter';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { lazy, Suspense, useEffect } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import Loader from './Loader/Loader';
-import { fetchContacts } from 'redux/contacts/contacts.thunk';
+import ContactsPage from 'pages/ContacsPage/ContactsPage';
+// import { fetchContacts } from 'redux/contacts/contacts.thunk';
 
 import css from '../components/App.module.css';
 
 const HomePage = lazy(() => import('pages/HomePage/HomePage'));
-const ContactsPage = lazy(() => import('pages/ContactsPage/ContactsPage'));
+// const ContactsPage = lazy(() => import('pages/ContactsPage/ContactsPage'));
 const RegisterPage = lazy(() => import('pages/RegisterPage/RegisterPage'));
 const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
 
 export const App = () => {
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(fetchContacts());
-  // }, [dispatch]);
+  const userData = useSelector(state => state.user.userData);
 
   return (
     // <div className={css.styleApp}>
@@ -42,30 +39,38 @@ export const App = () => {
             >
               Home
             </NavLink>
-            <NavLink
-              to="/contacts"
-              className={({ isActive }) =>
-                isActive ? css.active : css.navLink
-              }
-            >
-              Contacts
-            </NavLink>
-            <NavLink
-              to="/registerPage"
-              className={({ isActive }) =>
-                isActive ? css.active : css.navLink
-              }
-            >
-              RegisterPage
-            </NavLink>
-            <NavLink
-              to="/loginPage"
-              className={({ isActive }) =>
-                isActive ? css.active : css.navLink
-              }
-            >
-              LoginPage
-            </NavLink>
+            {userData === null ? null : (
+              <NavLink
+                to="/contacts"
+                className={({ isActive }) =>
+                  isActive ? css.active : css.navLink
+                }
+              >
+                Contacts
+              </NavLink>
+            )}
+
+            {userData !== null ? null : (
+              <NavLink
+                to="/registerPage"
+                className={({ isActive }) =>
+                  isActive ? css.active : css.navLink
+                }
+              >
+                RegisterPage
+              </NavLink>
+            )}
+
+            {userData !== null ? null : (
+              <NavLink
+                to="/loginPage"
+                className={({ isActive }) =>
+                  isActive ? css.active : css.navLink
+                }
+              >
+                LoginPage
+              </NavLink>
+            )}
           </nav>
         </header>
         <div>

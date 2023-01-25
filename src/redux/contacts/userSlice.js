@@ -20,7 +20,6 @@ export const loginUserRequest = createAsyncThunk(
   async (formData, thunkAPI) => {
     try {
       const response = await UserAPI.login(formData);
-      console.log('response', response);
       localStorage.setItem('token', response.token);
 
       return response;
