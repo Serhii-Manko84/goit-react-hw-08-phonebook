@@ -1,0 +1,57 @@
+import axios from 'axios';
+
+const publicHost = axios.create({
+  baseURL: 'https://connections-api.herokuapp.com/',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+const privateHost = axios.create({
+  baseURL: 'https://connections-api.herokuapp.com/',
+  headers: {
+    'Contebt-Type': 'applicatuion/json',
+  },
+});
+
+const userInterceptor = config => {
+  config.headers['Authorization'] = localStorage.getItem('token');
+  return config;
+};
+
+privateHost.interceptors.request.use(config => {
+  userInterceptor(config);
+});
+
+// {
+//     baseURL: 'https://connections-api.herokuapp.com/',
+//         headers: {
+//         'Contebt-Type': 'applicatuion/json',
+//             'Authorization': localStorage.getItem('token')
+//     },
+// }
+
+export const UserAPI = {
+  async register(formData) {
+    const { data } = await publicHost.post('users/signup', formData);
+    return await data;
+  },
+  async login(formData) {
+    const { data } = await publicHost.post('/users/login', formData);
+    return await data;
+  },
+  async getUserDetailsRequest(signal) {
+    const { data } = await privateHost.get('/users/current', { signal });
+    return await data;
+  },
+  async userLogOutRequest() {
+    const { data } = await privateHost.post('/users/logout');
+    return await data;
+  },
+};
+
+export const ContactsAPI = {
+  async getContactsRequest(signal) {
+    const { data } = await privateHost.get('/contacts', { signal });
+  },
+};

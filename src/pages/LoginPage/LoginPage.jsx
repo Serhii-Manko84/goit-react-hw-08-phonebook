@@ -1,36 +1,28 @@
 import React from 'react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { registerThunk } from 'redux/contacts/userSlice';
 
 function RegisterPage() {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
 
   const handleSubmit = event => {
     event.preventDefault();
-    const formData = { name, email, password };
+    const formData = { email, password };
     dispatch(registerThunk(formData));
   };
   return (
     <div>
-      <h1>Registration</h1>
+      <h1>LogIn</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <input
-            type="text"
-            value={name}
-            onChange={event => setName(event.target.value)}
-          />
-        </label>
         <label>
           Email:
           <input
             type="email"
             value={email}
-            onChange={event => setName(event.target.value)}
+            onChange={event => setEmail(event.target.value)}
           />
         </label>
         <label>
@@ -38,10 +30,10 @@ function RegisterPage() {
           <input
             type="password"
             value={password}
-            onChange={event => setName(event.target.value)}
+            onChange={event => setPassword(event.target.value)}
           />
         </label>
-        <button type="submit">Sign Up</button>
+        <button type="submit">Log In</button>
       </form>
     </div>
   );
