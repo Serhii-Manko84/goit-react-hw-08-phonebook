@@ -1,0 +1,50 @@
+import React from 'react';
+import { useState } from 'react';
+import { registerThunk } from 'redux/contacts/userSlice';
+
+function RegisterPage() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    const formData = { name, email, password };
+    dispatch(registerThunk(formData));
+  };
+  return (
+    <div>
+      <h1>Registration</h1>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Name:
+          <input
+            type="text"
+            value={name}
+            onChange={event => setName(event.target.value)}
+          />
+        </label>
+        <label>
+          Email:
+          <input
+            type="email"
+            value={email}
+            onChange={event => setName(event.target.value)}
+          />
+        </label>
+        <label>
+          Password:
+          <input
+            type="password"
+            value={password}
+            onChange={event => setName(event.target.value)}
+          />
+        </label>
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  );
+}
+
+export default RegisterPage;

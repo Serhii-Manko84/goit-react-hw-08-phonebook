@@ -1,19 +1,7 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
 
 function Layout() {
-  return (
-    <>
-      <div>
-        <header>
-          <Navigation></Navigation>
-          <userMenu></userMenu>
-        </header>
-        <Outlet />
-      </div>
-      ;
-    </>
-  );
+  return <div>Layout</div>;
 }
 
 export default Layout;
