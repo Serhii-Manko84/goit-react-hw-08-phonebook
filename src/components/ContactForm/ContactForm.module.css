@@ -1,3 +1,9 @@
+.titleNew {
+    font-weight: 700;
+    color: green;
+    margin-bottom: 20px;
+}
+
 .form {
     margin-bottom: 50px;
 }

@@ -56,7 +56,7 @@ export const ContactsAPI = {
     return await data;
   },
   async addContactRequest(contactData) {
-    const { data } = await privateHost.get('/contacts', { ...contactData });
+    const { data } = await privateHost.get('/contacts', contactData);
     return await data;
   },
   async deleteContactRequest(contactId) {

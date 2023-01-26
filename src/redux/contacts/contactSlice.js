@@ -14,6 +14,22 @@ export const getContactsRequest = createAsyncThunk(
     }
   }
 );
+
+// add Contact
+
+export const addContactRequest = createAsyncThunk(
+  'contacts/add',
+  async (contactData, thunkAPI) => {
+    try {
+      const response = await ContactsAPI.addContactRequest(contactData);
+
+      console.log('response', response);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 const initialState = {
   contacts: null,
   isLoading: false,
@@ -35,6 +51,20 @@ const contactsSlice = createSlice({
         state.contacts = action.payload;
       })
       .addCase(getContactsRequest.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      // add New Contact
+      .addCase(addContactRequest.pending, (state, action) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(addContactRequest.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.contacts = [action.payload, ...state.contacts];
+      })
+      .addCase(addContactRequest.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       }),
