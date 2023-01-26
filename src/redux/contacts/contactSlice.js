@@ -7,14 +7,12 @@ export const getContactsRequest = createAsyncThunk(
     try {
       const response = await ContactsAPI.getContactsRequest();
 
-      console.log('response', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
-
 // add Contact
 
 export const addContactRequest = createAsyncThunk(
@@ -22,6 +20,21 @@ export const addContactRequest = createAsyncThunk(
   async (contactData, thunkAPI) => {
     try {
       const response = await ContactsAPI.addContactRequest(contactData);
+
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// delete Contact
+
+export const deleteContactRequest = createAsyncThunk(
+  'contacts/delete',
+  async (contactId, thunkAPI) => {
+    try {
+      const response = await ContactsAPI.deleteContactRequest(contactId);
 
       console.log('response', response);
       return response;
@@ -65,6 +78,23 @@ const contactsSlice = createSlice({
         state.contacts = [action.payload, ...state.contacts];
       })
       .addCase(addContactRequest.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      // Delete Contact
+      .addCase(deleteContactRequest.pending, (state, action) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(deleteContactRequest.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const deleteContactId = action.payload.id;
+        state.contacts = state.contacts.filter(
+          contact => contact.id !== deleteContactId
+        );
+      })
+      .addCase(deleteContactRequest.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       }),

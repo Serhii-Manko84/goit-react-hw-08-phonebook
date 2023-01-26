@@ -3,7 +3,10 @@ import { Message } from 'components/Message/Message';
 import { ContactForm } from 'components/ContactForm/ContactForm';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContactsRequest } from 'redux/contacts/contactSlice';
+import {
+  deleteContactRequest,
+  getContactsRequest,
+} from 'redux/contacts/contactSlice';
 
 import css from './ContactsPage.module.css';
 
@@ -13,16 +16,15 @@ function ContactsPage() {
   const isLoading = useSelector(state => state.phonebook.isLoading);
   const error = useSelector(state => state.phonebook.error);
   const userData = useSelector(state => state.user.userData);
-  // const filteredContacts = contacts.filter(contact =>
-  //   contact.name.toLowerCase().trim().includes(filter.toLowerCase().trim())
-  // );
 
   useEffect(() => {
     if (userData === null) return;
     dispatch(getContactsRequest());
   }, [userData, dispatch]);
 
-  const handleDeleteContact = contactId => {};
+  const handleDeleteContact = contactId => {
+    dispatch(deleteContactRequest(contactId));
+  };
   return (
     <>
       <ul>
@@ -39,6 +41,7 @@ function ContactsPage() {
                 <h3>{name}</h3>
                 <p>{number}</p>
                 <button
+                  disabled={isLoading}
                   type="submit"
                   onClick={() => {
                     handleDeleteContact(id);

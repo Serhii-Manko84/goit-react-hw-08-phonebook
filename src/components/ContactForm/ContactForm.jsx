@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContactRequest } from 'redux/contacts/contactSlice';
-import { selectContacts } from 'redux/contacts/selectors';
 
 import css from './ContactForm.module.css';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(state => state.phonebook.isLoading);
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -24,13 +23,8 @@ export const ContactForm = () => {
     //   return alert(`${formData.name} already in your contacts list`);
     // }
     dispatch(addContactRequest(formData));
-    console.log(formData);
     setName('');
     setNumber('');
-  };
-
-  const handleDeleteContact = contactId => {
-    dispatch();
   };
 
   return (
@@ -63,7 +57,7 @@ export const ContactForm = () => {
             required
           />
         </label>
-        <button className={css.button} type="submit">
+        <button className={css.button} type="submit" disabled={isLoading}>
           Add contact
         </button>
       </form>

@@ -10,7 +10,7 @@ const publicHost = axios.create({
 const privateHost = axios.create({
   baseURL: 'https://connections-api.herokuapp.com/',
   headers: {
-    'Contebt-Type': 'applicatuion/json',
+    'Content-Type': 'application/json',
   },
 });
 
@@ -19,9 +19,7 @@ const userInterceptor = config => {
   return config;
 };
 
-privateHost.interceptors.request.use(config => {
-  userInterceptor(config);
-});
+privateHost.interceptors.request.use(userInterceptor);
 
 // {
 //     baseURL: 'https://connections-api.herokuapp.com/',
@@ -40,8 +38,8 @@ export const UserAPI = {
     const { data } = await publicHost.post('/users/login', formData);
     return await data;
   },
-  async getUserDetailsRequest(signal) {
-    const { data } = await privateHost.get('/users/current', { signal });
+  async getUserDetailsRequest() {
+    const { data } = await privateHost.get('/users/current');
     return await data;
   },
   async userLogOutRequest() {
@@ -51,12 +49,12 @@ export const UserAPI = {
 };
 
 export const ContactsAPI = {
-  async getContactsRequest(signal) {
-    const { data } = await privateHost.get('/contacts', { signal });
+  async getContactsRequest() {
+    const { data } = await privateHost.get('/contacts');
     return await data;
   },
   async addContactRequest(contactData) {
-    const { data } = await privateHost.get('/contacts', contactData);
+    const { data } = await privateHost.post('/contacts', contactData);
     return await data;
   },
   async deleteContactRequest(contactId) {
