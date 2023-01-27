@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { lazy, Suspense } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
-import { logOutRequest, userAuthRequest } from 'redux/contacts/userSlice';
+import { userAuthRequest } from 'redux/contacts/userSlice';
 import Loader from './Loader/Loader';
 
 import css from '../components/App.module.css';
@@ -22,10 +22,6 @@ export const App = () => {
     if (!token) return;
     dispatch(userAuthRequest());
   }, [dispatch]);
-
-  const handleLogOut = () => {
-    dispatch(logOutRequest());
-  };
 
   return (
     <>
@@ -50,13 +46,6 @@ export const App = () => {
                 >
                   Contacts
                 </NavLink>
-                <button
-                  type="button"
-                  className={css.button}
-                  onClick={handleLogOut}
-                >
-                  Log Out
-                </button>
               </>
             ) : (
               <>

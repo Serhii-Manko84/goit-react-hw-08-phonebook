@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { loginUserRequest } from 'redux/contacts/userSlice';
 
+import css from './LodinPage.module.css';
+
 function LoginPage() {
   const isLoading = useSelector(state => state.user.isLoading);
   const userData = useSelector(state => state.user.userData);
@@ -29,29 +31,31 @@ function LoginPage() {
   };
   return (
     <div>
-      <h1>LogIn</h1>
+      <h1 className={css.title}>Log in</h1>
       {isLoading && <Loader />}
       {error && <p>error={error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>
+      <form className={css.form} onSubmit={handleSubmit}>
+        <label className={css.label}>
           Email:
           <input
+            className={css.input}
             type="email"
             value={email}
             required
             onChange={event => setEmail(event.target.value)}
           />
         </label>
-        <label>
+        <label className={css.label}>
           Password:
           <input
+            className={css.input}
             type="password"
             value={password}
             required
             onChange={event => setPassword(event.target.value)}
           />
         </label>
-        <button type="submit" disabled={isLoading}>
+        <button className={css.button} type="submit" disabled={isLoading}>
           Log In
         </button>
       </form>

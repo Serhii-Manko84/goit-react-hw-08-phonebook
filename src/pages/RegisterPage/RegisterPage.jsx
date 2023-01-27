@@ -6,6 +6,8 @@ import { registerUserRequest } from 'redux/contacts/userSlice';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import css from './RegisterPage.module.css';
+
 function RegisterPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,38 +34,43 @@ function RegisterPage() {
 
   return (
     <div>
-      <h1>Registration</h1>
+      <h1 className={css.title}>Registration</h1>
       {isLoading && <Loader />}
       {error && <p>error={error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>
+      <form className={css.form} onSubmit={handleSubmit}>
+        <label className={css.label}>
           Name:
           <input
+            className={css.input}
             type="text"
             value={name}
             required
             onChange={event => setName(event.target.value)}
           />
         </label>
-        <label>
+        <label className={css.label}>
           Email:
           <input
+            className={css.input}
             type="email"
             value={email}
             required
             onChange={event => setEmail(event.target.value)}
           />
         </label>
-        <label>
+        <label className={css.label}>
           Password:
           <input
+            className={css.input}
             type="password"
             value={password}
             required
             onChange={event => setPassword(event.target.value)}
           />
         </label>
-        <button type="submit">Sign Up</button>
+        <button className={css.button} type="submit">
+          Sign Up
+        </button>
       </form>
     </div>
   );

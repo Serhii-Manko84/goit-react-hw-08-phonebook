@@ -13,6 +13,7 @@ export const getContactsRequest = createAsyncThunk(
     }
   }
 );
+console.log();
 // add Contact
 
 export const addContactRequest = createAsyncThunk(
@@ -44,7 +45,7 @@ export const deleteContactRequest = createAsyncThunk(
 );
 
 const initialState = {
-  contacts: null,
+  contacts: [],
   isLoading: false,
   error: null,
 };

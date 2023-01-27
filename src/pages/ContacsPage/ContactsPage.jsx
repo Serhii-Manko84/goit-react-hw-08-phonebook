@@ -11,6 +11,7 @@ import {
 } from 'redux/contacts/contactSlice';
 
 import css from './ContactsPage.module.css';
+import { UserMenu } from 'components/UserMenu/UserMenu';
 
 function ContactsPage() {
   const dispatch = useDispatch();
@@ -18,11 +19,16 @@ function ContactsPage() {
   const isLoading = useSelector(state => state.phonebook.isLoading);
   const error = useSelector(state => state.phonebook.error);
   const userData = useSelector(state => state.user.userData);
+  const filter = useSelector(state => state.filter.filter);
 
   useEffect(() => {
     if (userData === null) return;
     dispatch(getContactsRequest());
   }, [userData, dispatch]);
+
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().trim().includes(filter.toLowerCase().trim())
+  );
 
   const handleDeleteContact = contactId => {
     dispatch(deleteContactRequest(contactId));
@@ -32,14 +38,15 @@ function ContactsPage() {
       <ul>
         {isLoading && <Loader />}
         {error && <p>error={error}</p>}
+        <UserMenu />
         <ContactForm />
         <Filter />
 
-        {Array.isArray(contacts) && contacts.length === 0 && (
+        {Array.isArray(filteredContacts) && filteredContacts.length === 0 && (
           <Message text="Contact list is empy." />
         )}
-        {Array.isArray(contacts) &&
-          contacts.map(({ id, name, number }) => {
+        {Array.isArray(filteredContacts) &&
+          filteredContacts.map(({ id, name, number }) => {
             return (
               <li className={css.item} key={id}>
                 <h3>{name}</h3>

@@ -6,7 +6,7 @@ import css from './ContactForm.module.css';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.contacts);
+  const contacts = useSelector(state => state.phonebook.contacts);
 
   const isLoading = useSelector(state => state.phonebook.isLoading);
   const [name, setName] = useState('');

@@ -1,16 +1,20 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logOutRequest } from 'redux/contacts/userSlice';
+import css from './UserMenu.module.css';
 
-function UserMenu() {
-  const selectUser = useSelector();
+export const UserMenu = () => {
+  const dispatch = useDispatch();
+  const userEmail = useSelector(state => state.user.userData.email);
   return (
-    <div>
-      <h1>User Menu</h1>
-      <p>Name: {user.name}</p>
-      <p>Email: {user.email}</p>
-      <button>Logout</button>
+    <div className={css.UserMenu}>
+      <p className={css.userName}>Welcome back, {userEmail}!</p>
+      <button
+        className={css.btn}
+        type="button"
+        onClick={() => dispatch(logOutRequest())}
+      >
+        Log out
+      </button>
     </div>
   );
-}
-
-export default UserMenu;
+};

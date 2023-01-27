@@ -10,10 +10,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
-        background-color: rgba(76, 90, 76, 0.747);
+    width: 200px;
+    height: 40px;
+    background-color: rgb(156, 231, 156);
     color: rgb(24, 16, 14);
-    font-weight: 200;
+    font-weight: 400;
     font-size: 20px;
     border: none;
     cursor: pointer;
@@ -21,5 +22,5 @@
 
 .button:hover,
 .button:focus {
-    background-color: rgb(60, 61, 58);
+    background-color: rgb(79, 157, 2);
 }
