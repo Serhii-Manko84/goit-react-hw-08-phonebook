@@ -6,6 +6,8 @@ import css from './ContactForm.module.css';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts.contacts);
+
   const isLoading = useSelector(state => state.phonebook.isLoading);
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -15,13 +17,13 @@ export const ContactForm = () => {
   const handleSubmit = event => {
     event.preventDefault();
 
-    // if (
-    //   contacts.some(
-    //     contact => contact.name.toLowerCase() === formData.name.toLowerCase()
-    //   )
-    // ) {
-    //   return alert(`${formData.name} already in your contacts list`);
-    // }
+    if (
+      contacts.some(
+        contact => contact.name.toLowerCase() === formData.name.toLowerCase()
+      )
+    ) {
+      return alert(`${formData.name} already in your contacts list`);
+    }
     dispatch(addContactRequest(formData));
     setName('');
     setNumber('');

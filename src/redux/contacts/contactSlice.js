@@ -36,13 +36,13 @@ export const deleteContactRequest = createAsyncThunk(
     try {
       const response = await ContactsAPI.deleteContactRequest(contactId);
 
-      console.log('response', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
+
 const initialState = {
   contacts: null,
   isLoading: false,

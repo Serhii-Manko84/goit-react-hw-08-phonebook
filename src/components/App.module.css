@@ -38,3 +38,24 @@
 
     color: blue;
 }
+
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   margin: 0 auto;
+    width: 100px;
+    height: 50px;
+    background-color: rgb(217, 237, 217);
+    color: rgb(24, 16, 14);
+    font-weight: 300;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.button:hover,
+.button:focus {
+    background-color: rgb(102, 104, 99);
+}

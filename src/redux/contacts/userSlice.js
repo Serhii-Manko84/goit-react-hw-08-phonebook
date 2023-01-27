@@ -28,6 +28,34 @@ export const loginUserRequest = createAsyncThunk(
     }
   }
 );
+
+export const userAuthRequest = createAsyncThunk(
+  'user/auth',
+  async (_, thunkAPI) => {
+    try {
+      const response = await UserAPI.getUserDetailsRequest();
+
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const logOutRequest = createAsyncThunk(
+  'user/logOut',
+  async (_, thunkAPI) => {
+    try {
+      const response = await UserAPI.userLogOutRequest();
+      localStorage.removeItem('token');
+
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 const initialState = {
   userData: null,
   token: null,
@@ -55,7 +83,7 @@ const userSlice = createSlice({
         state.error = action.payload;
       })
 
-      // LogIn
+      // Log In
       .addCase(registerUserRequest.pending, (state, action) => {
         state.isLoading = true;
         state.error = null;
@@ -66,6 +94,37 @@ const userSlice = createSlice({
         state.token = action.payload.token;
       })
       .addCase(registerUserRequest.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      // user Auth request
+
+      .addCase(userAuthRequest.pending, (state, action) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(userAuthRequest.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.userData = action.payload;
+      })
+      .addCase(userAuthRequest.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      // log Out
+
+      .addCase(logOutRequest.pending, (state, action) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(logOutRequest.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.userData = null;
+        state.token = null;
+      })
+      .addCase(logOutRequest.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       }),

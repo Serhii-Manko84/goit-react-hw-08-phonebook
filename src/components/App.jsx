@@ -1,31 +1,33 @@
-import { Filter } from './Filter/Filter';
-import { ContactList } from './ContactList/ContactList';
 import { useDispatch, useSelector } from 'react-redux';
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import { logOutRequest, userAuthRequest } from 'redux/contacts/userSlice';
 import Loader from './Loader/Loader';
-import ContactsPage from 'pages/ContacsPage/ContactsPage';
-// import { fetchContacts } from 'redux/contacts/contacts.thunk';
 
 import css from '../components/App.module.css';
 
 const HomePage = lazy(() => import('pages/HomePage/HomePage'));
-// const ContactsPage = lazy(() => import('pages/ContactsPage/ContactsPage'));
+const ContactsPage = lazy(() => import('pages/ContacsPage/ContactsPage'));
 const RegisterPage = lazy(() => import('pages/RegisterPage/RegisterPage'));
 const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
 
 export const App = () => {
+  const dispatch = useDispatch();
   const userData = useSelector(state => state.user.userData);
+  const isUserAuthorization = userData !== null;
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    dispatch(userAuthRequest());
+  }, [dispatch]);
+
+  const handleLogOut = () => {
+    dispatch(logOutRequest());
+  };
 
   return (
-    // <div className={css.styleApp}>
-    //   <h1>Phonebook</h1>
-    //   <ContactForm />
-    //   <h2>Contacts</h2>
-    //   <Filter />
-    //   <ContactList />
-    // </div>
-
     <>
       <div>
         <header className={css.header}>
@@ -38,37 +40,43 @@ export const App = () => {
             >
               Home
             </NavLink>
-            {userData === null ? null : (
-              <NavLink
-                to="/contacts"
-                className={({ isActive }) =>
-                  isActive ? css.active : css.navLink
-                }
-              >
-                Contacts
-              </NavLink>
-            )}
-
-            {userData !== null ? null : (
-              <NavLink
-                to="/registerPage"
-                className={({ isActive }) =>
-                  isActive ? css.active : css.navLink
-                }
-              >
-                RegisterPage
-              </NavLink>
-            )}
-
-            {userData !== null ? null : (
-              <NavLink
-                to="/loginPage"
-                className={({ isActive }) =>
-                  isActive ? css.active : css.navLink
-                }
-              >
-                LoginPage
-              </NavLink>
+            {isUserAuthorization ? (
+              <>
+                <NavLink
+                  to="/contacts"
+                  className={({ isActive }) =>
+                    isActive ? css.active : css.navLink
+                  }
+                >
+                  Contacts
+                </NavLink>
+                <button
+                  type="button"
+                  className={css.button}
+                  onClick={handleLogOut}
+                >
+                  Log Out
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLink
+                  to="/registerPage"
+                  className={({ isActive }) =>
+                    isActive ? css.active : css.navLink
+                  }
+                >
+                  RegisterPage
+                </NavLink>
+                <NavLink
+                  to="/loginPage"
+                  className={({ isActive }) =>
+                    isActive ? css.active : css.navLink
+                  }
+                >
+                  LoginPage
+                </NavLink>
+              </>
             )}
           </nav>
         </header>

@@ -1,6 +1,25 @@
 .item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 20px;
+    justify-content: center;
     margin-bottom: 15px;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+        background-color: rgba(76, 90, 76, 0.747);
+    color: rgb(24, 16, 14);
+    font-weight: 200;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.button:hover,
+.button:focus {
+    background-color: rgb(60, 61, 58);
 }

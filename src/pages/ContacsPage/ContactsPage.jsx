@@ -1,8 +1,10 @@
-import Loader from 'components/Loader/Loader';
-import { Message } from 'components/Message/Message';
-import { ContactForm } from 'components/ContactForm/ContactForm';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import WithAuthRedirect from 'hoc/WithAuthRedirect';
+import { Message } from 'components/Message/Message';
+import { ContactForm } from 'components/ContactForm/ContactForm';
+import { Filter } from 'components/Filter/Filter';
+import Loader from 'components/Loader/Loader';
 import {
   deleteContactRequest,
   getContactsRequest,
@@ -31,6 +33,8 @@ function ContactsPage() {
         {isLoading && <Loader />}
         {error && <p>error={error}</p>}
         <ContactForm />
+        <Filter />
+
         {Array.isArray(contacts) && contacts.length === 0 && (
           <Message text="Contact list is empy." />
         )}
@@ -41,6 +45,7 @@ function ContactsPage() {
                 <h3>{name}</h3>
                 <p>{number}</p>
                 <button
+                  className={css.button}
                   disabled={isLoading}
                   type="submit"
                   onClick={() => {
@@ -57,4 +62,6 @@ function ContactsPage() {
   );
 }
 
-export default ContactsPage;
+const ProtectedComponent = WithAuthRedirect(ContactsPage, '/loginPage');
+
+export default ProtectedComponent;

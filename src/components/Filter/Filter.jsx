@@ -7,7 +7,7 @@ export function Filter() {
   const filter = useSelector(state => state.filter.filter);
 
   const changeFilter = event => {
-    dispatch(getFilterValue(event.currentTarget.value));
+    dispatch(getFilterValue(event.target.value));
   };
 
   return (

@@ -27,6 +27,7 @@ export function ContactList() {
       )}
       {Array.isArray(filteredContacts) &&
         filteredContacts.map(({ id, name, number }) => {
+          console.log(id, name, number);
           return (
             <li className={css.item} key={id}>
               <Contact name={name} number={number} id={id} />
